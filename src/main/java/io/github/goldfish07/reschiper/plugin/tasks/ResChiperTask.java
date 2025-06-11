@@ -1,15 +1,7 @@
 package io.github.goldfish07.reschiper.plugin.tasks;
 
 import com.android.build.gradle.api.ApplicationVariant;
-import io.github.goldfish07.reschiper.plugin.command.Command;
-import io.github.goldfish07.reschiper.plugin.command.model.DuplicateResMergerCommand;
-import io.github.goldfish07.reschiper.plugin.command.model.FileFilterCommand;
-import io.github.goldfish07.reschiper.plugin.command.model.ObfuscateBundleCommand;
-import io.github.goldfish07.reschiper.plugin.command.model.StringFilterCommand;
-import io.github.goldfish07.reschiper.plugin.Extension;
-import io.github.goldfish07.reschiper.plugin.model.KeyStore;
-import io.github.goldfish07.reschiper.plugin.internal.Bundle;
-import io.github.goldfish07.reschiper.plugin.internal.SigningConfig;
+
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.TaskAction;
 import org.jetbrains.annotations.NotNull;
@@ -18,6 +10,16 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import io.github.goldfish07.reschiper.plugin.Extension;
+import io.github.goldfish07.reschiper.plugin.command.Command;
+import io.github.goldfish07.reschiper.plugin.command.model.DuplicateResMergerCommand;
+import io.github.goldfish07.reschiper.plugin.command.model.FileFilterCommand;
+import io.github.goldfish07.reschiper.plugin.command.model.ObfuscateBundleCommand;
+import io.github.goldfish07.reschiper.plugin.command.model.StringFilterCommand;
+import io.github.goldfish07.reschiper.plugin.internal.Bundle;
+import io.github.goldfish07.reschiper.plugin.internal.SigningConfig;
+import io.github.goldfish07.reschiper.plugin.model.KeyStore;
 
 /**
  * Custom Gradle task for running ResChiper.
@@ -48,7 +50,10 @@ public class ResChiperTask extends DefaultTask {
     public void setVariantScope(ApplicationVariant variant) {
         this.variant = variant;
         bundlePath = Bundle.getBundleFilePath(getProject(), variant);
-        obfuscatedBundlePath = new File(bundlePath.toFile().getParentFile(), resChiperExtension.getObfuscatedBundleName()).toPath();
+        String aabName = bundlePath.toFile().getName();
+        String obfuscatedBundleName = aabName.replace(".aab", "") + "-obfuscated.aab";
+        obfuscatedBundlePath = new File(bundlePath.toFile().getParentFile(), obfuscatedBundleName).toPath();
+        logger.log(Level.WARNING, "obfuscatedBundlePath = " + obfuscatedBundlePath);
     }
 
     /**

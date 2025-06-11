@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.goldfish07.reschiper"
-version = "0.1.0-rc6"
+version = "0.1.0-rc7-1"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -33,7 +33,7 @@ dependencies {
 
     implementation(gradleApi())
     implementation("org.jetbrains:annotations:24.1.0")
-    implementation("com.android.tools.build:gradle:8.8.0")
+    implementation("com.android.tools.build:gradle:8.10.1")
     implementation("com.android.tools.build:bundletool:1.17.2")
     implementation("com.google.guava:guava:32.1.3-jre")
     implementation("io.grpc:grpc-protobuf:1.59.1")
@@ -58,7 +58,7 @@ publishing {
             description = "AAB Resource Obfuscation Tool"
             from(components["java"])
             artifact(sourcesJar)
-            artifact(javadocJar)
+//            artifact(javadocJar)
 
             pom {
                 packaging = "jar"
@@ -90,17 +90,17 @@ publishing {
     }
 
     repositories {
-        mavenLocal()
         maven {
-            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            name = "Github"
+            url = uri("https://maven.pkg.github.com/AtlasXV/android-libs")
             credentials {
-                username = project.findProperty("ossrhUsername").toString()
-                password = project.findProperty("ossrhPassword").toString()
+                username = System.getenv("GPR_USR") ?: project.findProperty("GPR_USR").toString()
+                password = System.getenv("GPR_KEY") ?: project.findProperty("GPR_KEY").toString()
             }
         }
     }
 }
 
-signing {
-    sign(publishing.publications["mavenJava"])
-}
+//signing {
+//    sign(publishing.publications["mavenJava"])
+//}
