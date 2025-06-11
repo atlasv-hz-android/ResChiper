@@ -4,8 +4,8 @@ plugins {
     id("signing")
 }
 
-group = "io.github.goldfish07.reschiper"
-version = "0.1.0-rc7-1"
+group = "com.android.now.reschiper"
+version = "0.1.0-rc7-2"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
